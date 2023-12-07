@@ -6,6 +6,7 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/langs/pt_br.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
 <style>
     .ui-datepicker {
@@ -17,14 +18,11 @@
         margin-bottom: 0;
     }
 
-    #signature-pad {
-        border: 1px solid #000;
+    #assCliente-pad {
+        border: 1px solid #333333;
     }
     .buttons-a {
         margin-top: 10px;
-    }
-    .p-2 {
-        margin-left: 30px;
     }
 </style>
 
@@ -241,11 +239,12 @@ foreach ($servicos as $s) {
                         <!--Assinaturas-->
                         <div class="tab-pane<?=$tab == 5 ? ' active' : ''?>" id="tab5">
                             <div class="span12" style="padding: 1%; margin-left: 0">
-                                <h3>Assine a Ordem de Serviço</h3>
+                                <h3>Autorizar e assinar Ordem de Serviço</h3>
+                                <p style="margin-left: 10px;">Ao assinar e enviar sua assinatura você estará autorizando a execução da ordem de serviço!</p>
                                 <div class="span11">
-                                    <div class="span10" style="text-align:center;">
+                                    <div class="span10" id="assinaturaCliente" style="text-align:center;">
                                       <?php if(!$result->assClienteImg): ?>
-                                        <canvas id="signature-pad" width="600" height="300"></canvas>
+                                        <canvas id="assCliente-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Cliente</h4>
                                       <?php else: ?>
                                         <img src="<?=base_url() . 'assets/assinaturas/' . $result->assClienteImg?>" width="600" alt="">
@@ -257,8 +256,8 @@ foreach ($servicos as $s) {
                                   <?php if(!$result->assClienteImg): ?>
                                     <div class="span10" style="text-align:center; margin-left:0;">
                                         <div class="buttons-a">
-                                            <button id="clear-button1" type="button" class="btn btn-danger">Limpar Assinatura Cliente</button>
-                                            <button id="save-button" type="button" class="btn btn-success">Enviar Assinatura</button>
+                                            <button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Assinatura</button>
+                                            <button id="salvarAssCliente" type="button" class="btn btn-success">Enviar Assinatura</button>
                                         </div>
                                     </div>
                                   <?php endif; ?>
@@ -394,53 +393,7 @@ foreach ($servicos as $s) {
         $("#div-visualizar-anexo").html('<img src="' + link + '" alt="">');
         $("#download").attr('href', "<?php echo base_url(); ?>index.php/mine/downloadanexo/" + id);
     });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        var idOs = $("#os_id").val();
-        
-        var canvas = document.getElementById('signature-pad');
-        var signaturePad = new SignaturePad(canvas);
 
-        var clearButton1 = document.getElementById('clear-button1');
-        var saveButton = document.getElementById('save-button');
-
-        clearButton1.addEventListener('click', function(event) {
-                signaturePad.clear();
-        });
-
-        saveButton.addEventListener('click', function(event) {
-            if (signaturePad.isEmpty()) {
-                alert('Precisa enviar as duas assinaturas.');
-            } else {
-                var assClienteImg64 = signaturePad.toDataURL();
-                var form_data = new FormData();
-                form_data.append('idOs', idOs);
-                form_data.append('assClienteImg', assClienteImg64);
-                
-                $.ajax({
-                    url: '<?php echo base_url('index.php/Assinatura/upload_signature') ?>',
-                    type: 'POST',
-                    cache: false,
-                    data : form_data,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        Swal.fire({
-                            icon: "success",
-                            title: "Atenção",
-                            text: "Assinatura Enviada com Sucesso"
-                        });
-                    }
-                })
-                .fail(function() {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Atenção",
-                        text: "Ocorreu um erro ao enviar sua assinatura"
-                    });
-                });
-            }
-        });
-
-    });
+    window.base_url = <?php echo json_encode(base_url()); ?>;
+    window.idOs     = $("#os_id").val();
 </script>

@@ -37,12 +37,12 @@ class Assinatura extends CI_Controller
 
         if(!empty($this->input->post('assClienteImg'))){
             $assClienteImg = preg_replace('#^data:image/[^;]+;base64,#', '', $this->input->post('assClienteImg')); // Imagem da assinatura do cliente
-            $data['assClienteIp'] = $this->input->ip_address();
-            $data['assClienteData'] = date('Y-m-d H:i:s');
+            $data['assClienteIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
+            $data['assClienteData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
 
             // Define o nome da imagem de assinatura do cliente "IDdaOS_DataNoFormatoAnomêsdiahoraminutosegundo_NumeroAleatorioDe4Digitos.png"
             $assClienteImgName = $idOs . '_' . date('YmdHis') . '_' . rand(1000,9999) . '.png';
-            $assClientePatch = $signaturesDir . $assClienteImgName;
+            $assClientePatch   = $signaturesDir . $assClienteImgName;
 
             // Se conseguir salvar a assinatura do cliente na pasta, coloca o nome final do arquivo na variável
             if(file_put_contents($assClientePatch, base64_decode($assClienteImg))) {
@@ -55,12 +55,12 @@ class Assinatura extends CI_Controller
 
         if(!empty($this->input->post('assTecnicoImg'))){
             $assTecnicoImg = preg_replace('#^data:image/[^;]+;base64,#', '', $this->input->post('assTecnicoImg')); // Imagem da assinatura do técnico
-            $data['assTecnicoIp'] = $this->input->ip_address();
-            $data['assTecnicoData'] = date('Y-m-d H:i:s');
+            $data['assTecnicoIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
+            $data['assTecnicoData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
 
             // Define o nome da imagem de assinatura do técnico "IDdaOS_DataNoFormatoAnomêsdiahoraminutosegundo_NumeroAleatorioDe4Digitos.png"
             $assTecnicoImgName = $idOs . '_' . date('YmdHis') . '_' . rand(1000,9999) . '.png';
-            $assTecnicoPatch = $signaturesDir . $assTecnicoImgName;
+            $assTecnicoPatch   = $signaturesDir . $assTecnicoImgName;
         
             // Se conseguir salvar a assinatura do técnico na pasta, coloca o nome final do arquivo na variável
             if(file_put_contents($assTecnicoPatch, base64_decode($assTecnicoImg))) {
@@ -77,8 +77,19 @@ class Assinatura extends CI_Controller
             $response = [
                 'code'    => '200',
                 'success' => true,
-                'message' => 'Assinaturas salvas com sucesso.'
+                'message' => 'Assinatura(s) salva(s) com sucesso.'
             ];
+            
+            if(array_key_exists('assClienteImg', $data)) {
+                $response['assClienteImg']  = $assClienteImgName;
+                $response['assClienteIp']   = $data['assClienteIp'];
+                $response['assClienteData'] = date('d/m/Y H:i:s', strtotime($data['assClienteData']));
+            }
+            if(array_key_exists('assTecnicoImg', $data)) {
+                $response['assTecnicoImg'] = $assTecnicoImgName;
+                $response['assTecnicoIp']   = $data['assTecnicoIp'];
+                $response['assTecnicoData'] = date('d/m/Y H:i:s', strtotime($data['assTecnicoData']));
+            }
         }else{
             $response['message'] = 'Erro: Falha ao salvar os dados da assinatura.';
         }
