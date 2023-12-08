@@ -322,7 +322,7 @@
                                         <?php endif; ?>
                                     </td>
                                     <td style="text-align:center;">
-                                        <img width="150" src="<?=$result->assTecnicoImg ? base_url('assets/assinaturas/' . $result->assTecnicoImg) : base_url('assets/assinaturas/branco.png')?>" />
+                                        <img width="150" src="<?=$result->assTecnicoImg ? base_url('assets/assinaturas/tecnicos/' . $result->assTecnicoImg) : base_url('assets/assinaturas/branco.png')?>" />
                                         <br> ______________________________
                                         <br> Assinatura do Técnico
                                         <?php if ($result->assTecnicoImg) : ?>
