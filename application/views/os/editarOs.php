@@ -8,12 +8,9 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
-<style>    
+<style>
     #assCliente-pad, #assTecnico-pad {
         border: 1px solid #333333;
-    }
-
-    #assCliente-pad, #assTecnico-pad {
         margin-top: 25px;
     }
 
