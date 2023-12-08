@@ -6,33 +6,23 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/trumbowyg.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/langs/pt_br.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
-<style>
-    .ui-datepicker {
-        z-index: 99999 !important;
-    }
-
-    .trumbowyg-box {
-        margin-top: 0;
-        margin-bottom: 0;
+<style>    
+    #assCliente-pad, #assTecnico-pad {
+        border: 1px solid #333333;
     }
 
-    textarea {
-        resize: vertical;
+    #assCliente-pad, #assTecnico-pad {
+        margin-top: 25px;
     }
-    
-    #signature-pad{
-        border: 1px solid #000;
-    }
-    #signature-pad2{
-        border: 1px solid #000;
-    }
-    .buttons-a{
+
+    .buttonsAssinaturas {
         margin-top: 10px;
     }
-
-    .p-2{
-        margin-left: 30px;
+    
+    .buttonsAssinaturas button {
+        margin-top: 5px;
     }
 </style>
 
@@ -464,9 +454,9 @@ foreach ($servicos as $s) {
                             <div class="span12" style="padding: 1%; margin-left: 0">
                                 <h3>Assine a Ordem de Serviço</h3>
                                 <div class="span11">
-                                    <div class="span9" style="text-align:center;">
+                                    <div class="span11" id="assinaturaCliente" style="text-align:center;">
                                       <?php if(!$result->assClienteImg): ?>
-                                        <canvas id="signature-pad" width="600" height="300"></canvas>
+                                        <canvas id="assCliente-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Cliente</h4>
                                       <?php else: ?>
                                         <img src="<?=base_url() . 'assets/assinaturas/' . $result->assClienteImg?>" width="600" alt="">
@@ -477,12 +467,12 @@ foreach ($servicos as $s) {
                                     </div>
                                 </div>
                                 <div class="span11">
-                                    <div class="span9" style="text-align:center;">
-                                      <?php if(!$result->assTecnicoImg): ?>
-                                        <canvas id="signature-pad2" width="600" height="300" style="margin-top:25px"></canvas>
+                                    <div class="span11" id="assinaturaTecnico" style="text-align:center;">
+                                      <?php if(!$this->session->userdata('assinatura') && !$result->assTecnicoImg): ?>
+                                        <canvas id="assTecnico-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Técnico</h4>
-                                      <?php else: ?>
-                                        <img src="<?=base_url() . 'assets/assinaturas/' . $result->assTecnicoImg?>" width="600" alt="">
+                                      <?php elseif($result->assTecnicoImg): ?>
+                                        <img src="<?=base_url() . 'assets/assinaturas/tecnicos/' . $result->assTecnicoImg?>" width="600" alt="">
                                         <h4>Assinatura do Técnico</h4>
                                         <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assTecnicoData))?></p>
                                         <p>IP: <?=$result->assTecnicoIp ?></p>
@@ -490,25 +480,29 @@ foreach ($servicos as $s) {
                                     </div>
                                 </div>
                                 <div class="span11">
-                                    <div class="span9" style="text-align:center;">
-                                        <div class="buttons-a">
+                                    <div class="span11" style="text-align:center;">
+                                        <div class="buttonsAssinaturas">
                                           <?php
                                             if(!$result->assClienteImg):
-                                                echo '<button id="clear-button1" type="button" class="btn btn-danger">Limpar Assinatura Cliente</button>';
+                                                echo '<button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Ass. Cliente</button>';
                                             endif;
 
-                                            if(!$result->assTecnicoImg):
-                                                echo '<button id="clear-button2" type="button" class="btn btn-danger" style="margin-left:5px">Limpar Assinatura Técnico</button>';
+                                            if(!$result->assTecnicoImg && !$this->session->userdata('assinatura')):
+                                                echo '<button id="limparAssTecnico" type="button" class="btn btn-danger" style="margin-left:5px">Limpar Ass. Técnico</button>';
                                             endif;
 
-                                            if(!$result->assClienteImg && !$result->assTecnicoImg):
-                                                echo '<button id="save-button" type="button" class="btn btn-success" style="margin-left:5px">Enviar Assinaturas</button>';
-                                                echo '<button id="save-sig-tec-button" type="button" class="btn btn-success" style="margin-left:5px">Enviar Assinatura Técnico</button>';
+                                            if(!$result->assClienteImg && !$result->assTecnicoImg && !$this->session->userdata('assinatura')):
+                                                echo '<button id="salvarAss" type="button" class="btn btn-success" style="margin-left:5px">Enviar as 2 Ass.</button>';
+                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             elseif(!$result->assClienteImg):
-                                                echo '<button id="save-sig-cli-button" type="button" class="btn btn-success" style="margin-left:5px">Enviar Assinatura Cliente</button>';
+                                                echo '<button id="salvarAssCliente" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Cliente</button>';
                                             elseif(!$result->assTecnicoImg):
-                                                echo '<button id="save-sig-tec-button" type="button" class="btn btn-success" style="margin-left:5px">Enviar Assinatura Técnico</button>';
+                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             endif;
+
+                                            if(!$result->assTecnicoImg && $this->session->userdata('assinatura')) {
+                                                echo '<button id="adicionarAss" type="button" class="btn btn-primary" style="margin-left:5px">Adicione sua assinatura</button>';
+                                            }
                                           ?>
                                         </div>
                                     </div>
@@ -1322,120 +1316,7 @@ foreach ($servicos as $s) {
             lang: 'pt_br'
         });
     });
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        var idOs = $("#idOs").val();
-        
-        var assCliente = document.getElementById('signature-pad');
-        if(assCliente) {
-            var assClientePad = new SignaturePad(assCliente);
-        }
 
-        var assTecnico = document.getElementById('signature-pad2');
-        if(assTecnico) {
-            var assTecnicoPad = new SignaturePad(assTecnico);
-        }
-
-        var clearButton1     = document.getElementById('clear-button1');
-        var clearButton2     = document.getElementById('clear-button2');
-        var saveButton       = document.getElementById('save-button');
-        var saveSigTecButton = document.getElementById('save-sig-tec-button');
-        var saveSigCliButton = document.getElementById('save-sig-cli-button');
-
-        if(clearButton1) {
-            clearButton1.addEventListener('click', function(event) {
-                assClientePad.clear();
-            });
-        }
-        if(clearButton2) {
-            clearButton2.addEventListener('click', function(event) {
-                assTecnicoPad.clear();
-            });
-        }
-
-        if(saveButton) {
-            saveButton.addEventListener('click', function(event) {
-                if (assClientePad.isEmpty() && assTecnicoPad.isEmpty()) {
-                    alert('Precisa enviar ao menos uma assinatura.');
-                } else {
-                    var form_data = new FormData();
-                    form_data.append('idOs', idOs);
-
-                    if(assCliente) {
-                        var assClienteImg64 = assClientePad.toDataURL();
-                        form_data.append('assClienteImg', assClienteImg64);
-                    }
-                    if(assTecnico) {
-                        var assTecnicoImg64 = assTecnicoPad.toDataURL();
-                        form_data.append('assTecnicoImg', assTecnicoImg64);
-                    }
-                    
-                    post_form(form_data);
-                }
-            });
-        }
-
-        if(saveSigCliButton) {
-            saveSigCliButton.addEventListener('click', function(event) {
-                if (assClientePad.isEmpty()) {
-                    alert('O Cliente precisa assinar.');
-                } else {
-                    var form_data = new FormData();
-                    form_data.append('idOs', idOs);
-                    
-                    var assClienteImg64 = assClientePad.toDataURL();
-                    form_data.append('assClienteImg', assClienteImg64);
-                    
-                    post_form(form_data);
-                }
-            });
-        }
-
-        if(saveSigTecButton) {
-            saveSigTecButton.addEventListener('click', function(event) {
-                if (assTecnicoPad.isEmpty()) {
-                    alert('O Técnico precisa assinar.');
-                } else {
-                    var form_data = new FormData();
-                    var assTecnicoImg64 = assTecnicoPad.toDataURL();
-                    form_data.append('idOs', idOs);
-                    form_data.append('assTecnicoImg', assTecnicoImg64);
-                    
-                    post_form(form_data);
-                }
-            });
-        }
-
-        function post_form(form_data)
-        {
-            $.ajax({
-                url: '<?php echo base_url('index.php/Assinatura/upload_signature') ?>',
-                type: 'POST',
-                cache: false,
-                data : form_data,
-                contentType: false,
-                processData: false,
-                success: function(response){
-                    Swal.fire({
-                        icon: "success",
-                        title: "Atenção",
-                        text: "Assinatura Enviada com Sucesso"
-                    });
-                },
-                error: function (request, status, error) {
-                     console.log(JSON.stringify(request));
-                     console.log(JSON.stringify(status));
-                     console.log(JSON.stringify(error));
-                }
-            })
-            .fail(function() {
-                console.log(JSON.stringify(error))
-                Swal.fire({
-                    icon: "error",
-                    title: "Atenção",
-                    text: "Ocorreu um erro ao enviar sua assinatura"
-                });
-            });
-        }
-    });
+    window.base_url = <?=json_encode(base_url())?>;
+    window.idOs     = $("#idOs").val();
 </script>
