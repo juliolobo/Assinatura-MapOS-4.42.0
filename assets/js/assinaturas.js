@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         assTecnico && assTecnico.remove();
                         $('#assinaturaTecnico').prepend('<img src="'+base_url+'assets/assinaturas/tecnicos/'+response.assTecnicoImg+'" width="600" alt="">')
                         .append('<p>Em '+response.assTecnicoData+'</p>').append('<p>IP: '+response.assTecnicoIp+'</p>');
-                        $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico #adicionarAss');
+                        $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico, #adicionarAss');
                     }
                     Swal.fire({
                         icon: "success",
