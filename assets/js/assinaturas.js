@@ -15,20 +15,21 @@ document.addEventListener('DOMContentLoaded', function() {
     var salvarAss        = document.getElementById('salvarAss');
     var saveSigTecButton = document.getElementById('salvarAssTecnico');
     var saveSigCliButton = document.getElementById('salvarAssCliente');
+    var adicionarAss     = document.getElementById('adicionarAss');
 
     if(limparAssCliente) {
-        limparAssCliente.addEventListener('click', function(event) {
+        limparAssCliente.addEventListener('click', function() {
             assClientePad.clear();
         });
     }
     if(limparAssTecnico) {
-        limparAssTecnico.addEventListener('click', function(event) {
+        limparAssTecnico.addEventListener('click', function() {
             assTecnicoPad.clear();
         });
     }
 
     if(salvarAss) {
-        salvarAss.addEventListener('click', function(event) {
+        salvarAss.addEventListener('click', function() {
             if (assClientePad.isEmpty() || assTecnicoPad.isEmpty()) {
                 var assFaltante = assClientePad.isEmpty() ? 'Cliente' : 'Técnico';
                 Swal.fire({
@@ -55,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if(saveSigCliButton) {
-        saveSigCliButton.addEventListener('click', function(event) {
+        saveSigCliButton.addEventListener('click', function() {
             if (assClientePad.isEmpty()) {
                 Swal.fire({
                     icon: "error",
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if(saveSigTecButton) {
-        saveSigTecButton.addEventListener('click', function(event) {
+        saveSigTecButton.addEventListener('click', function() {
             if (assTecnicoPad.isEmpty()) {
                 Swal.fire({
                     icon: "error",
@@ -90,6 +91,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 post_form(form_data);
             }
+        });
+    }
+
+    if(adicionarAss) {
+        adicionarAss.addEventListener('click', function() {
+            var form_data = new FormData();
+            form_data.append('idOs', idOs);
+
+            post_form(form_data);
         });
     }
 
@@ -111,10 +121,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('button').remove('#limparAssCliente, #salvarAss, #salvarAssTecnico');
                     }
                     if(response.assTecnicoImg) {
-                        assTecnico.remove();
-                        $('#assinaturaTecnico').prepend('<img src="'+base_url+'assets/assinaturas/'+response.assTecnicoImg+'" width="600" alt="">')
+                        assTecnico && assTecnico.remove();
+                        $('#assinaturaTecnico').prepend('<img src="'+base_url+'assets/assinaturas/tecnicos/'+response.assTecnicoImg+'" width="600" alt="">')
                         .append('<p>Em '+response.assTecnicoData+'</p>').append('<p>IP: '+response.assTecnicoIp+'</p>');
-                        $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico');
+                        $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico #adicionarAss');
                     }
                     Swal.fire({
                         icon: "success",
@@ -125,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                         icon: "error",
                         title: "Atenção",
-                        text: response.message
+                        text: response.message || "Ocorreu um erro ao tentar salvar a assinatura"
                     });
                 }
             },

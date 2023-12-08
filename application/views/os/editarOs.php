@@ -8,12 +8,18 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
-<style>    
-    #assCliente-pad, #assTecnico-pad{
+<style>
+    #assCliente-pad, #assTecnico-pad {
         border: 1px solid #333333;
+        margin-top: 25px;
     }
-    .buttons-a{
+
+    .buttonsAssinaturas {
         margin-top: 10px;
+    }
+    
+    .buttonsAssinaturas button {
+        margin-top: 5px;
     }
 </style>
 
@@ -445,7 +451,7 @@ foreach ($servicos as $s) {
                             <div class="span12" style="padding: 1%; margin-left: 0">
                                 <h3>Assine a Ordem de Serviço</h3>
                                 <div class="span11">
-                                    <div class="span9" id="assinaturaCliente" style="text-align:center;">
+                                    <div class="span11" id="assinaturaCliente" style="text-align:center;">
                                       <?php if(!$result->assClienteImg): ?>
                                         <canvas id="assCliente-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Cliente</h4>
@@ -458,12 +464,12 @@ foreach ($servicos as $s) {
                                     </div>
                                 </div>
                                 <div class="span11">
-                                    <div class="span9" id="assinaturaTecnico" style="text-align:center;">
-                                      <?php if(!$result->assTecnicoImg): ?>
-                                        <canvas id="assTecnico-pad" width="600" height="300" style="margin-top:25px"></canvas>
+                                    <div class="span11" id="assinaturaTecnico" style="text-align:center;">
+                                      <?php if(!$this->session->userdata('assinatura') && !$result->assTecnicoImg): ?>
+                                        <canvas id="assTecnico-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Técnico</h4>
-                                      <?php else: ?>
-                                        <img src="<?=base_url() . 'assets/assinaturas/' . $result->assTecnicoImg?>" width="600" alt="">
+                                      <?php elseif($result->assTecnicoImg): ?>
+                                        <img src="<?=base_url() . 'assets/assinaturas/tecnicos/' . $result->assTecnicoImg?>" width="600" alt="">
                                         <h4>Assinatura do Técnico</h4>
                                         <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assTecnicoData))?></p>
                                         <p>IP: <?=$result->assTecnicoIp ?></p>
@@ -471,25 +477,29 @@ foreach ($servicos as $s) {
                                     </div>
                                 </div>
                                 <div class="span11">
-                                    <div class="span9" style="text-align:center;">
-                                        <div class="buttons-a">
+                                    <div class="span11" style="text-align:center;">
+                                        <div class="buttonsAssinaturas">
                                           <?php
                                             if(!$result->assClienteImg):
                                                 echo '<button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Ass. Cliente</button>';
                                             endif;
 
-                                            if(!$result->assTecnicoImg):
+                                            if(!$result->assTecnicoImg && !$this->session->userdata('assinatura')):
                                                 echo '<button id="limparAssTecnico" type="button" class="btn btn-danger" style="margin-left:5px">Limpar Ass. Técnico</button>';
                                             endif;
 
-                                            if(!$result->assClienteImg && !$result->assTecnicoImg):
+                                            if(!$result->assClienteImg && !$result->assTecnicoImg && !$this->session->userdata('assinatura')):
                                                 echo '<button id="salvarAss" type="button" class="btn btn-success" style="margin-left:5px">Enviar as 2 Ass.</button>';
-                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Técnico</button>';
+                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             elseif(!$result->assClienteImg):
                                                 echo '<button id="salvarAssCliente" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Cliente</button>';
                                             elseif(!$result->assTecnicoImg):
-                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Técnico</button>';
+                                                echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             endif;
+
+                                            if(!$result->assTecnicoImg && $this->session->userdata('assinatura')) {
+                                                echo '<button id="adicionarAss" type="button" class="btn btn-primary" style="margin-left:5px">Adicione sua assinatura</button>';
+                                            }
                                           ?>
                                         </div>
                                     </div>
@@ -1304,6 +1314,6 @@ foreach ($servicos as $s) {
         });
     });
 
-    window.base_url = <?php echo json_encode(base_url()); ?>;
+    window.base_url = <?=json_encode(base_url())?>;
     window.idOs     = $("#idOs").val();
 </script>
