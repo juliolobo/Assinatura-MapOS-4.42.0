@@ -45,3 +45,10 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 
 5. Se já tiver assinado outra OS e a assinatura já está salva, o botão exibido para assinatura do técnico será "Adicione sua assinatura".
 ![Botão Adicione sua assinatura](https://i.imgur.com/cfp6pyg.png)
+
+### Exemplos
+1. Como aparece a assinaturas no Editar OS
+![Assinatura no Editar OS](https://i.imgur.com/v2d40iR.png)
+
+2. Assinaturas no imprimir
+![Assinaturas no imprimir OS](https://i.imgur.com/v2d40iR.png)
