@@ -52,3 +52,7 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 
 #### 2. Assinaturas no imprimir
 ![Assinaturas no imprimir OS](https://i.imgur.com/EKckBlB.png)
+
+### ATENÇÃO
+#### Se o técnico quiser alterar a assinatura, vá ao Banco de dados e apague o conteúdo da coluna "assinaturaImg" da tabela de usuários daquele usuário. não apague a imagem da pasta pois é ela que aparecerá nas OS que ele já assinou. Assim como não é possível trocar assinatura em um documento de papel já assinado, no sistema não seria diferente.
+![Apagar conteúdo do Banco](https://i.imgur.com/RiOeAw3.png)
