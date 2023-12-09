@@ -17,6 +17,6 @@ class Migration_add_assinatura_to_usuarios extends CI_Migration
 
     public function down()
     {
-        $this->dbforge->drop_column('assinaturaImg');
+        $this->dbforge->drop_column('usuarios', 'assinaturaImg');
     }
 }

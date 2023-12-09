@@ -203,8 +203,8 @@ echo $result->valor_desconto != 0 ? "<h4 style='text-align: right'> Desconto: R$
 echo $result->valor_desconto != 0 ? "<h4 style='text-align: right'> Total com Desconto: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>" : "";
 ?>
                         </h4>
-                        
-                        <table class="table table-bordered table-condensed" style="padding-top: 20px">
+                      <?php if($usar_assinatura): ?>
+                        <table class="table" style="padding-top: 20px">
                             <tbody>
                                 <tr>
                                     <td style="text-align:center;">
@@ -232,7 +232,7 @@ echo $result->valor_desconto != 0 ? "<h4 style='text-align: right'> Total com De
                                 </tr>
                             </tbody>
                         </table>
-
+                      <?php endif; ?>
                     </div>
                 </div>
             </div>

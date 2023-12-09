@@ -306,8 +306,9 @@
                                 echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>";
                             } else { echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>"; }
                         }?>
-                        
-                        <table class="table table-bordered table-condensed" style="padding-top: 20px">
+
+                      <?php if($this->data['configuration']['usar_assinatura']): ?>
+                        <table class="table" style="padding-top: 20px">
                             <tbody>
                                 <tr>
                                     <td style="text-align:center;">
@@ -335,6 +336,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                      <?php endif; ?>
                     </div>
                 </div>
             </div>

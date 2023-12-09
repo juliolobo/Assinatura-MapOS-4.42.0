@@ -74,7 +74,9 @@
                         <li id="tabServicos"><a href="#tab4" data-toggle="tab">Serviços</a></li>
                         <li id="tabAnexos"><a href="#tab5" data-toggle="tab">Anexos</a></li>
                         <li id="tabAnotacoes"><a href="#tab6" data-toggle="tab">Anotações</a></li>
+                      <?php if($this->data['configuration']['usar_assinatura']): ?>
                         <li id="tabAssinatura"><a href="#tab7" data-toggle="tab">Assinaturas</a></li>
+                      <?php endif; ?>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tab1">
@@ -449,6 +451,7 @@ foreach ($servicos as $s) {
                             </div>
                         </div>
                         <!-- Fim tab anotações -->
+                      <?php if($this->data['configuration']['usar_assinatura']): ?>
                         <!--Assinaturas-->
                         <div class="tab-pane" id="tab7">
                             <div class="span12" style="padding: 1%; margin-left: 0">
@@ -496,7 +499,7 @@ foreach ($servicos as $s) {
                                                 echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             elseif(!$result->assClienteImg):
                                                 echo '<button id="salvarAssCliente" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Cliente</button>';
-                                            elseif(!$result->assTecnicoImg):
+                                            elseif(!$result->assTecnicoImg && !$this->session->userdata('assinatura')):
                                                 echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             endif;
 
@@ -509,6 +512,7 @@ foreach ($servicos as $s) {
                                 </div>
                             </div>
                         </div>
+                      <?php endif; ?>
                         <!-- Fim tab assinaturas -->
                     </div>
                 </div>

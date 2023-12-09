@@ -19,4 +19,6 @@ ADD COLUMN `assTecnicoData` DATETIME;
 
 ALTER TABLE `usuarios`
 ADD COLUMN `assinaturaImg` VARCHAR(50);
+
+INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), ('status_assinatura', 'Aprovado')
 ```

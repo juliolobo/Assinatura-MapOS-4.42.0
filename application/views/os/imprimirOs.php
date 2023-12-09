@@ -270,7 +270,8 @@ $totalProdutos = 0; ?>
                                             echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>";
                                         } else { echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>"; }
                                     }?>
-                                    <table class="table table-bordered table-condensed" style="padding-top: 20px">
+                                  <?php if($this->data['configuration']['usar_assinatura']): ?>
+                                    <table class="table" style="padding-top: 20px">
                                         <tbody>
                                             <tr>
                                                 <td style="text-align:center;">
@@ -298,6 +299,7 @@ $totalProdutos = 0; ?>
                                             </tr>
                                         </tbody>
                                     </table>
+                                  <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -502,7 +504,8 @@ $totalProdutos = 0; ?>
                                             echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($result->valor_desconto, 2, ',', '.') . "</h4>";
                                         } else { echo "<h4 style='text-align: right'>TOTAL: R$ " . number_format($totalProdutos + $totalServico, 2, ',', '.') . "</h4>"; }
                                     }?>
-                                    <table class="table table-bordered table-condensed" style="padding-top: 20px">
+                                  <?php if($this->data['configuration']['usar_assinatura']): ?>
+                                    <table class="table" style="padding-top: 20px">
                                         <tbody>
                                             <tr>
                                                 <td style="text-align:center;">
@@ -517,7 +520,7 @@ $totalProdutos = 0; ?>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td style="text-align:center;">
-                                                    <img width="150" src="<?=$result->assTecnicoImg ? base_url('assets/assinaturas/' . $result->assTecnicoImg) : base_url('assets/assinaturas/branco.png')?>" />
+                                                    <img width="150" src="<?=$result->assTecnicoImg ? base_url('assets/assinaturas/tecnicos/' . $result->assTecnicoImg) : base_url('assets/assinaturas/branco.png')?>" />
                                                     <br> ______________________________
                                                     <br> Assinatura do Técnico
                                                     <?php if ($result->assTecnicoImg) : ?>
@@ -530,6 +533,7 @@ $totalProdutos = 0; ?>
                                             </tr>
                                         </tbody>
                                     </table>
+                                  <?php endif; ?>
                                 </div>
                             </div>
                         </div>

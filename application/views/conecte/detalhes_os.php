@@ -44,7 +44,9 @@
                         <li id="tabProdutos"><a href="#tab2" data-toggle="tab">Produtos</a></li>
                         <li id="tabServicos"><a href="#tab3" data-toggle="tab">Serviços</a></li>
                         <li id="tabAnexos"><a href="#tab4" data-toggle="tab">Anexos</a></li>
+                      <?php if($this->data['usar_assinatura']): ?>
                         <li <?=$tab == 5 ? 'class="active" ' : ''?>id="tabAssinar"><a href="#tab5" data-toggle="tab">Assinatura</a></li>
+                      <?php endif; ?>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane<?=$tab != 5 ? ' active' : ''?>" id="tab1">
@@ -235,7 +237,7 @@ foreach ($servicos as $s) {
 
                             </div>
                         </div>
-
+                      <?php if($this->data['usar_assinatura']): ?>
                         <!--Assinaturas-->
                         <div class="tab-pane<?=$tab == 5 ? ' active' : ''?>" id="tab5">
                             <div class="span12" style="padding: 1%; margin-left: 0">
@@ -264,6 +266,7 @@ foreach ($servicos as $s) {
                                 </div>
                             </div>
                         </div>
+                      <?php endif; ?>
                         <!-- Fim tab assinaturas -->
 
                     </div>
