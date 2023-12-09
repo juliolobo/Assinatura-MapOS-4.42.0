@@ -7,7 +7,7 @@ Desenvolvido para ser implementado no [<img src="https://raw.githubusercontent.c
 
 1. Faça o download dos arquivos.
 2. Extraia o pacote e copie as pastas "assets" e "application" para o diretório do seu MapOS.
-3. Execute o comando no terminal no diretório do seu MapOS `php index.php tools migrate`. Caso não consiga executar comandos no terminal utilize os SQL abaixo.
+3. Execute o comando no terminal no diretório onde fica o "index.php" do seu MapOS `php index.php tools migrate`. Caso não consiga executar comandos no terminal utilize os SQL abaixo.
 ```
 ALTER TABLE `os`
 ADD COLUMN `assClienteImg` VARCHAR(50),
