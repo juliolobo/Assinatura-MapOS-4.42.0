@@ -38,8 +38,8 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 ![Área de assinatura da OS](https://i.imgur.com/EOXoQ2g.png)
 
 4. Em Editar OS haverá uma aba "Assinatura". Se for a primeira vez que a *PESSOA LOGADA* assina uma OS, a assinatura dela é salva para ser usada em OSs futuras.
-#### A assinatura é sempre do usuário que está *LOGADO* e não do técnico que consta na OS.
-#### O cliente também poderá assinar pela Área de admin para facilitar e não precisar fazer o Cliente abrir o sistema, logar pra assinar.
+`A assinatura é sempre do usuário que está *LOGADO* e não do técnico que consta na OS.`
+`O cliente também poderá assinar pela Área de admin para facilitar e não precisar fazer o Cliente abrir o sistema, logar pra assinar.`
 ![Aba Assinatura no Editar OS](https://i.imgur.com/J6zjr9r.png)
 ![Botões de Limpar e enviar assinaturas](https://i.imgur.com/v2d40iR.png)
 
