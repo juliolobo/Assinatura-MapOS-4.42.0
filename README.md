@@ -24,7 +24,7 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 ```
 
 ### ATENÇÃO
-`A pasta "assets/assinaturas/" deve ter permissão de escrita também`
+`A pasta "assets/assinaturas/" deve ter permissão de escrita também (775)`
 
 ### Utilização
 
