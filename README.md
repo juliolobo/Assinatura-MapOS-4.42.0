@@ -48,7 +48,7 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 
 ### Exemplos
 #### 1. Como aparece a assinaturas no Editar OS
-![Assinatura no Editar OS](https://i.imgur.com/v2d40iR.png)
+![Assinatura no Editar OS](https://i.imgur.com/iT7O8sx.png)
 
 #### 2. Assinaturas no imprimir
-![Assinaturas no imprimir OS](https://i.imgur.com/v2d40iR.png)
+![Assinaturas no imprimir OS](https://i.imgur.com/EKckBlB.png)
