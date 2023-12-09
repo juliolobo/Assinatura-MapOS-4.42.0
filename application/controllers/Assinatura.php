@@ -1,7 +1,7 @@
 <?php
 // defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Assinatura extends CI_Controller
+class Assinatura extends MY_Controller
 {
     public function upload_signature()
     {
@@ -10,6 +10,7 @@ class Assinatura extends CI_Controller
         $this->load->model('usuarios_model');
         // Carrega a biblioteca de validação
         $this->load->library('form_validation');
+
         // Define as validações
         $this->form_validation->set_rules('idOs', 'idOs', 'required');
         $this->form_validation->set_rules('assClienteImg', 'valid_base64');
@@ -36,30 +37,39 @@ class Assinatura extends CI_Controller
             mkdir($signaturesDir, 0777, true);
         }
 
-        if(!empty($this->input->post('assClienteImg'))){
-            $assClienteImg = preg_replace('#^data:image/[^;]+;base64,#', '', $this->input->post('assClienteImg')); // Imagem da assinatura do cliente
-            $assClienteImgName = $idOs . '_' . date('YmdHis') . '_' . rand(1000,9999) . '.png'; // Define o nome da imagem de assinatura do cliente "IDdaOS_DataNoFormatoAnomêsdiahoraminutosegundo_NumeroAleatorioDe4Digitos.png"
-            $assClientePatch   = $signaturesDir . $assClienteImgName;
+        if($this->input->post('inserirAssCli')) {
+            if(!empty($this->input->post('assClienteImg'))){
+                $assClienteImg = preg_replace('#^data:image/[^;]+;base64,#', '', $this->input->post('assClienteImg')); // Imagem da assinatura do cliente
+                $assClienteImgName = $idOs . '_' . date('YmdHis') . '_' . rand(1000,9999) . '.png'; // Define o nome da imagem de assinatura do cliente "IDdaOS_DataNoFormatoAnomêsdiahoraminutosegundo_NumeroAleatorioDe4Digitos.png"
+                $assClientePatch   = $signaturesDir . $assClienteImgName;
 
-            // Se conseguir salvar a assinatura do cliente na pasta, coloca o nome final do arquivo na variável
-            if(file_put_contents($assClientePatch, base64_decode($assClienteImg))) {
-                $data['assClienteImg']  = $assClienteImgName;
-                $data['assClienteIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
-                $data['assClienteData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
+                // Se conseguir salvar a assinatura do cliente na pasta, coloca o nome final do arquivo na variável
+                if(file_put_contents($assClientePatch, base64_decode($assClienteImg))) {
+                    $data['assClienteImg']  = $assClienteImgName;
+                    $data['assClienteIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
+                    $data['assClienteData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
+                    
+                    $this->CI = &get_instance();
+                    $this->CI->load->database();
+                    $data['status'] = $this->CI->db->get_where('configuracoes', ['config' => 'status_assinatura'])->row_object()->valor;
+                } else {
+                    $response['message'] = 'Erro: Falha ao salvar assinatura do cliente.';
+                    $this->response_signature($response);
+                }
             } else {
-                $response['message'] = 'Erro: Falha ao salvar assinatura do cliente.';
+                $response['message'] = 'Erro: Falha ao salvar assinatura do técnico.';
                 $this->response_signature($response);
             }
         }
 
-        $assinaturaImg = $this->session->userdata('assinatura');
-        
-        if($assinaturaImg) {
-            $data['assTecnicoImg']  = $assinaturaImg;
-            $data['assTecnicoIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
-            $data['assTecnicoData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
-        } else {
-            if(!empty($this->input->post('assTecnicoImg'))){
+        if($this->input->post('inserirAssTec')) {
+            $assinaturaImg = $this->session->userdata('assinatura');
+            
+            if($assinaturaImg) {
+                $data['assTecnicoImg']  = $assinaturaImg;
+                $data['assTecnicoIp']   = $this->input->ip_address(); // Pega o IP de quem enviou a imagem
+                $data['assTecnicoData'] = date('Y-m-d H:i:s'); // Pega a data de quando enviou
+            } elseif(!empty($this->input->post('assTecnicoImg'))) {
                 // Cria o diretório caso não exista
                 if (!is_dir($signaturesDir.'/tecnicos/',)) {
                     mkdir($signaturesDir.'/tecnicos/', 0777, true);
@@ -80,6 +90,9 @@ class Assinatura extends CI_Controller
                     $response['message'] = 'Erro: Falha ao salvar assinatura do técnico.';
                     $this->response_signature($response);
                 }
+            } else {
+                $response['message'] = 'Erro: Falha ao salvar assinatura do técnico.';
+                $this->response_signature($response);
             }
         }
 

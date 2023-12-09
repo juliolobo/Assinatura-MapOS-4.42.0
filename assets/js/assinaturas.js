@@ -44,10 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(assCliente) {
                     var assClienteImg64 = assClientePad.toDataURL();
                     form_data.append('assClienteImg', assClienteImg64);
+                    form_data.append('inserirAssCli', 1);
                 }
                 if(assTecnico) {
                     var assTecnicoImg64 = assTecnicoPad.toDataURL();
                     form_data.append('assTecnicoImg', assTecnicoImg64);
+                    form_data.append('inserirAssTec', 1);
                 }
                 
                 post_form(form_data);
@@ -69,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 var assClienteImg64 = assClientePad.toDataURL();
                 form_data.append('assClienteImg', assClienteImg64);
+                form_data.append('inserirAssCli', 1);
                 
                 post_form(form_data);
             }
@@ -88,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 var assTecnicoImg64 = assTecnicoPad.toDataURL();
                 form_data.append('idOs', idOs);
                 form_data.append('assTecnicoImg', assTecnicoImg64);
+                form_data.append('inserirAssTec', 1);
                 
                 post_form(form_data);
             }
@@ -98,6 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
         adicionarAss.addEventListener('click', function() {
             var form_data = new FormData();
             form_data.append('idOs', idOs);
+            form_data.append('inserirAssTec', 1);
 
             post_form(form_data);
         });
@@ -118,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         assCliente.remove();
                         $('#assinaturaCliente').prepend('<img src="'+base_url+'assets/assinaturas/'+response.assClienteImg+'" width="600" alt="">')
                         .append('<p>Em '+response.assClienteData+'</p>').append('<p>IP: '+response.assClienteIp+'</p>');
-                        $('button').remove('#limparAssCliente, #salvarAss, #salvarAssTecnico');
+                        $('button').remove('#limparAssCliente, #salvarAss, #salvarAssCliente');
                     }
                     if(response.assTecnicoImg) {
                         assTecnico && assTecnico.remove();
