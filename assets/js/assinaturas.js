@@ -1,5 +1,5 @@
 
-document.addEventListener('DOMContentLoaded', function() {    
+document.addEventListener('DOMContentLoaded', function() {
     var assCliente = document.getElementById('assCliente-pad');
     if(assCliente) {
         var assClientePad = new SignaturePad(assCliente);
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     form_data.append('inserirAssTec', 1);
                 }
                 
-                post_form(form_data);
+                post_form(form_data, assClienteImg64, assTecnicoImg64);
             }
         });
     }
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 form_data.append('assClienteImg', assClienteImg64);
                 form_data.append('inserirAssCli', 1);
                 
-                post_form(form_data);
+                post_form(form_data, assClienteImg64);
             }
         });
     }
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 form_data.append('assTecnicoImg', assTecnicoImg64);
                 form_data.append('inserirAssTec', 1);
                 
-                post_form(form_data);
+                post_form(form_data, '', assTecnicoImg64);
             }
         });
     }
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function post_form(form_data)
+    function post_form(form_data, assClienteImg64 = '', assTecnicoImg64 = '')
     {
         $.ajax({
             url: base_url+'index.php/Assinatura/upload_signature',
@@ -121,14 +121,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if(response.success == true) {
                     if(response.assClienteImg) {
                         assCliente.remove();
-                        $('#assinaturaCliente').prepend('<img src="'+base_url+'assets/assinaturas/'+response.assClienteImg+'" width="600" alt="">')
-                        .append('<p>Em '+response.assClienteData+'</p>').append('<p>IP: '+response.assClienteIp+'</p>');
+                        $('#assinaturaCliente').prepend('<img src="'+assClienteImg64+'" width="600" alt="">')
+                            .append('<p>Em '+response.assClienteData+'</p>').append('<p>IP: '+response.assClienteIp+'</p>');
                         $('button').remove('#limparAssCliente, #salvarAss, #salvarAssCliente');
                     }
                     if(response.assTecnicoImg) {
                         assTecnico && assTecnico.remove();
-                        $('#assinaturaTecnico').prepend('<img src="'+base_url+'assets/assinaturas/tecnicos/'+response.assTecnicoImg+'" width="600" alt="">')
-                        .append('<p>Em '+response.assTecnicoData+'</p>').append('<p>IP: '+response.assTecnicoIp+'</p>');
+                        assTecnicoImg = assTecnicoImg64 || response.assTecnicoImg;
+                        $('#tituloAssTec').length ? '' : $('#assinaturaTecnico').append('<h4>Assinatura do Técnico</h4>');
+                        $('#assinaturaTecnico').prepend('<img src="'+assTecnicoImg+'" width="600" alt="">')
+                            .append('<p>Em '+response.assTecnicoData+'</p>').append('<p>IP: '+response.assTecnicoIp+'</p>');
                         $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico, #adicionarAss');
                     }
                     Swal.fire({

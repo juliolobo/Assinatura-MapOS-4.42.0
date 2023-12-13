@@ -6,8 +6,7 @@ class Migration_add_assinatura_to_usuarios extends CI_Migration
     {
         $fields = [
             'assinaturaImg' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+                'type' => 'LONGTEXT',
                 'null' => true
             ]
         ];
