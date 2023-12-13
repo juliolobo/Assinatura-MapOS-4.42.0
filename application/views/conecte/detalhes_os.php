@@ -1,10 +1,6 @@
-<?php
-    $tab = isset($_GET['tab']) ? $_GET['tab'] : 0;
-?>
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/trumbowyg/ui/trumbowyg.css">
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/trumbowyg.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/langs/pt_br.js"></script>
-<script type="text/javascript" src="<?php echo base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
@@ -21,6 +17,7 @@
     #assCliente-pad {
         border: 1px solid #333333;
     }
+
     .buttons-a {
         margin-top: 10px;
     }
@@ -216,8 +213,7 @@ foreach ($servicos as $s) {
                                 } ?>
 
                                 <div class="span12" id="divAnexos" style="margin-left: 0">
-                                    <?php
-                                    foreach ($anexos as $a) {
+                                    <?php foreach ($anexos as $a) {
                                         if ($a->thumb == null) {
                                             $thumb = base_url() . 'assets/img/icon-file.png';
                                             $link = base_url() . 'assets/img/icon-file.png';
@@ -226,58 +222,51 @@ foreach ($servicos as $s) {
                                             $link = $a->url . '/' . $a->anexo;
                                         }
                                         echo '<div class="span3" style="min-height: 150px; margin-left: 0">
-                                                    <a style="min-height: 150px;" href="#modal-anexo" imagem="' . $a->idAnexos . '" link="' . $link . '" role="button" class="btn anexo span12" data-toggle="modal">
-                                                        <img src="' . $thumb . '" alt="">
-                                                    </a>
-                                                    <span>' . $a->anexo . '</span>
-                                                </div>';
-                                    }
-?>
+                                            <a style="min-height: 150px;" href="#modal-anexo" imagem="' . $a->idAnexos . '" link="' . $link . '" role="button" class="btn anexo span12" data-toggle="modal">
+                                            <img src="' . $thumb . '" alt="">
+                                            </a>
+                                            <span>' . $a->anexo . '</span>
+                                            </div>';
+                                    }?>
                                 </div>
 
                             </div>
                         </div>
-                      <?php if($this->data['usar_assinatura']): ?>
+
                         <!--Assinaturas-->
-                        <div class="tab-pane<?=$tab == 5 ? ' active' : ''?>" id="tab5">
-                            <div class="span12" style="padding: 1%; margin-left: 0">
-                                <h3>Autorizar e assinar Ordem de Serviço</h3>
-                                <p style="margin-left: 10px;">Ao assinar e enviar sua assinatura você estará autorizando a execução da ordem de serviço!</p>
-                                <div class="span11">
-                                    <div class="span10" id="assinaturaCliente" style="text-align:center;">
-                                      <?php if(!$result->assClienteImg): ?>
-                                        <canvas id="assCliente-pad" width="600" height="300"></canvas>
-                                        <h4>Assinatura do Cliente</h4>
-                                      <?php else: ?>
-                                        <img src="<?=base_url() . 'assets/assinaturas/' . $result->assClienteImg?>" width="600" alt="">
-                                        <h4>Assinatura do Cliente</h4>
-                                        <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assClienteData))?></p>
-                                        <p>IP: <?=$result->assClienteIp ?></p>
-                                      <?php endif; ?>
-                                    </div>
-                                  <?php if(!$result->assClienteImg): ?>
-                                    <div class="span10" style="text-align:center; margin-left:0;">
-                                        <div class="buttons-a">
-                                            <button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Assinatura</button>
-                                            <button id="salvarAssCliente" type="button" class="btn btn-success">Enviar Assinatura</button>
+                        <?php if($this->data['usar_assinatura']): ?>
+                            <div class="tab-pane<?=$tab == 5 ? ' active' : ''?>" id="tab5">
+                                <div class="span12" style="padding: 1%; margin-left: 0">
+                                    <h3>Autorizar e assinar Ordem de Serviço</h3>
+                                    <p style="margin-left: 10px;">Ao assinar e enviar sua assinatura você estará autorizando a execução da ordem de serviço!</p>
+                                    <div class="span11">
+                                        <div class="span10" id="assinaturaCliente" style="text-align:center;">
+                                        <?php if(!$result->assClienteImg): ?>
+                                            <canvas id="assCliente-pad" width="600" height="300"></canvas>
+                                            <h4>Assinatura do Cliente</h4>
+                                        <?php else: ?>
+                                            <img src="<?=$result->assClienteImg?>" width="600" alt="">
+                                            <h4>Assinatura do Cliente</h4>
+                                            <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assClienteData))?></p>
+                                            <p>IP: <?=$result->assClienteIp ?></p>
+                                        <?php endif; ?>
                                         </div>
+                                    <?php if(!$result->assClienteImg): ?>
+                                        <div class="span10" style="text-align:center; margin-left:0;">
+                                            <div class="buttons-a">
+                                                <button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Assinatura</button>
+                                                <button id="salvarAssCliente" type="button" class="btn btn-success">Enviar Assinatura</button>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                     </div>
-                                  <?php endif; ?>
                                 </div>
                             </div>
-                        </div>
-                      <?php endif; ?>
+                        <?php endif; ?>
                         <!-- Fim tab assinaturas -->
-
                     </div>
-
                 </div>
-
-
-                .
-
             </div>
-
         </div>
     </div>
 </div>

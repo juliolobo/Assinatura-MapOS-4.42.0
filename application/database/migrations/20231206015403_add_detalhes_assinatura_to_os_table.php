@@ -6,8 +6,7 @@ class Migration_add_detalhes_assinatura_to_os_table extends CI_Migration
     {
         $fields = [
             'assClienteImg' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+                'type' => 'LONGTEXT',
                 'null' => true
             ],
             'assClienteIp' => [
@@ -20,8 +19,7 @@ class Migration_add_detalhes_assinatura_to_os_table extends CI_Migration
                 'null' => true
             ],
             'assTecnicoImg' => [
-                'type' => 'VARCHAR',
-                'constraint' => 50,
+                'type' => 'LONGTEXT',
                 'null' => true
             ],
             'assTecnicoIp' => [
@@ -40,7 +38,7 @@ class Migration_add_detalhes_assinatura_to_os_table extends CI_Migration
 
     public function down()
     {
-        $this->dbforge->drop_column('os', 'column_to_drop');
+        $this->dbforge->drop_column('os', 'assClienteImg');
         $this->dbforge->drop_column('os', 'assClienteIp');
         $this->dbforge->drop_column('os', 'assClienteData');
         $this->dbforge->drop_column('os', 'assTecnicoImg');

@@ -8,24 +8,6 @@
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/signature_pad.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/assinaturas.js"></script>
 
-<style>    
-    #assCliente-pad, #assTecnico-pad {
-        border: 1px solid #333333;
-    }
-
-    #assCliente-pad, #assTecnico-pad {
-        margin-top: 25px;
-    }
-
-    .buttonsAssinaturas {
-        margin-top: 10px;
-    }
-    
-    .buttonsAssinaturas button {
-        margin-top: 5px;
-    }
-</style>
-
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom.css" />
 
 <div class="row-fluid" style="margin-top:0">
@@ -405,7 +387,6 @@ foreach ($servicos as $s) {
                                                     <a style="min-height: 150px;" href="#modal-anexo" imagem="' . $a->idAnexos . '" link="' . $link . '" role="button" class="btn anexo span12" data-toggle="modal">
                                                         <img src="' . $thumb . '" alt="">
                                                     </a>
-                                                    <span>' . $a->anexo . '</span>
                                                 </div>';
                                     }
 ?>
@@ -425,25 +406,25 @@ foreach ($servicos as $s) {
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Anotação</th>
                                                 <th>Data/Hora</th>
+                                                <th>Anotação</th>
                                                 <th>Ações</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-        foreach ($anotacoes as $a) {
-            echo '<tr>';
-            echo '<td>' . $a->anotacao . '</td>';
-            echo '<td>' . date('d/m/Y H:i:s', strtotime($a->data_hora)) . '</td>';
-            echo '<td><span idAcao="' . $a->idAnotacoes . '" title="Excluir Anotação" class="btn-nwe4 anotacao"><i class="bx bx-trash-alt"></i></span></td>';
-            echo '</tr>';
-        }
-        if (!$anotacoes) {
-            echo '<tr><td colspan="3">Nenhuma anotação cadastrada</td></tr>';
-        }
+                                                foreach ($anotacoes as $a) {
+                                                    echo '<tr>';
+                                                    echo '<td>' . date('d/m/Y H:i:s', strtotime($a->data_hora)) . '</td>';
+                                                    echo '<td>' . $a->anotacao . '</td>';
+                                                    echo '<td><span idAcao="' . $a->idAnotacoes . '" title="Excluir Anotação" class="btn-nwe4 anotacao"><i class="bx bx-trash-alt"></i></span></td>';
+                                                    echo '</tr>';
+                                                }
+                                                if (!$anotacoes) {
+                                                    echo '<tr><td colspan="3">Nenhuma anotação cadastrada</td></tr>';
+                                                }
 
-?>
+                                            ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -462,7 +443,7 @@ foreach ($servicos as $s) {
                                         <canvas id="assCliente-pad" width="600" height="300"></canvas>
                                         <h4>Assinatura do Cliente</h4>
                                       <?php else: ?>
-                                        <img src="<?=base_url() . 'assets/assinaturas/' . $result->assClienteImg?>" width="600" alt="">
+                                        <img src="<?=$result->assClienteImg?>" width="600" alt="">
                                         <h4>Assinatura do Cliente</h4>
                                         <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assClienteData))?></p>
                                         <p>IP: <?=$result->assClienteIp ?></p>
@@ -471,12 +452,12 @@ foreach ($servicos as $s) {
                                 </div>
                                 <div class="span11">
                                     <div class="span11" id="assinaturaTecnico" style="text-align:center;">
-                                      <?php if(!$this->session->userdata('assinatura') && !$result->assTecnicoImg): ?>
+                                      <?php if(!$tecTemAssinatura && !$result->assTecnicoImg): ?>
                                         <canvas id="assTecnico-pad" width="600" height="300"></canvas>
-                                        <h4>Assinatura do Técnico</h4>
+                                        <h4 id="tituloAssTec">Assinatura do Técnico</h4>
                                       <?php elseif($result->assTecnicoImg): ?>
-                                        <img src="<?=base_url() . 'assets/assinaturas/tecnicos/' . $result->assTecnicoImg?>" width="600" alt="">
-                                        <h4>Assinatura do Técnico</h4>
+                                        <img src="<?=$result->assTecnicoImg?>" width="600" alt="">
+                                        <h4 id="tituloAssTec">Assinatura do Técnico</h4>
                                         <p>Em <?=date('d/m/Y H:i:s', strtotime($result->assTecnicoData))?></p>
                                         <p>IP: <?=$result->assTecnicoIp ?></p>
                                       <?php endif; ?>
@@ -490,20 +471,20 @@ foreach ($servicos as $s) {
                                                 echo '<button id="limparAssCliente" type="button" class="btn btn-danger">Limpar Ass. Cliente</button>';
                                             endif;
 
-                                            if(!$result->assTecnicoImg && !$this->session->userdata('assinatura')):
+                                            if(!$result->assTecnicoImg && !$tecTemAssinatura):
                                                 echo '<button id="limparAssTecnico" type="button" class="btn btn-danger" style="margin-left:5px">Limpar Ass. Técnico</button>';
                                             endif;
 
-                                            if(!$result->assClienteImg && !$result->assTecnicoImg && !$this->session->userdata('assinatura')):
+                                            if(!$result->assClienteImg && !$result->assTecnicoImg && !$tecTemAssinatura):
                                                 echo '<button id="salvarAss" type="button" class="btn btn-success" style="margin-left:5px">Enviar as 2 Ass.</button>';
                                                 echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             elseif(!$result->assClienteImg):
                                                 echo '<button id="salvarAssCliente" type="button" class="btn btn-success" style="margin-left:5px">Enviar Ass. Cliente</button>';
-                                            elseif(!$result->assTecnicoImg && !$this->session->userdata('assinatura')):
+                                            elseif(!$result->assTecnicoImg && !$tecTemAssinatura):
                                                 echo '<button id="salvarAssTecnico" type="button" class="btn btn-primary" style="margin-left:5px">Enviar Ass. Técnico</button>';
                                             endif;
 
-                                            if(!$result->assTecnicoImg && $this->session->userdata('assinatura')) {
+                                            if(!$result->assTecnicoImg && $tecTemAssinatura) {
                                                 echo '<button id="adicionarAss" type="button" class="btn btn-primary" style="margin-left:5px">Adicione sua assinatura</button>';
                                             }
                                           ?>
