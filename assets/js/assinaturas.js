@@ -136,7 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     Swal.fire({
                         icon: "success",
                         title: "Sucesso",
-                        text: response.message
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
                     });
                 } else {
                     Swal.fire({
