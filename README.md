@@ -29,7 +29,7 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 ![Configurações da Assinatura](https://i.imgur.com/gnprb6l.png)
 
 #### 2. Ao habilitar as assinaturas aparecerá para seu cliente o botão de assinar e autorizar a OS
-![Botão de assinar no vizualizar OS](https://i.imgur.com/WOJ0tmA.png)
+![Botão de assinar no vizualizar OS](https://i.imgur.com/sK8VZfq.png)
 
 #### 3. Ao clicar nesse botão o cliente é direcionado pra aba Assinatura onde deverá assinar e enviar a assinatura, alterando o Status da OS para o qual você escolheu nas configurações.
 ![Área de assinatura da OS](https://i.imgur.com/EOXoQ2g.png)
