@@ -124,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('#assinaturaCliente').prepend('<img src="'+assClienteImg64+'" width="600" alt="">')
                             .append('<p>Em '+response.assClienteData+'</p>').append('<p>IP: '+response.assClienteIp+'</p>');
                         $('button').remove('#limparAssCliente, #salvarAss, #salvarAssCliente');
+                        $("#divAnotacoes").load(base_url+'index.php/os/editar/'+form_data.get('idOs')+' #divAnotacoes');
                     }
                     if(response.assTecnicoImg) {
                         assTecnico && assTecnico.remove();
@@ -132,12 +133,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         $('#assinaturaTecnico').prepend('<img src="'+assTecnicoImg+'" width="600" alt="">')
                             .append('<p>Em '+response.assTecnicoData+'</p>').append('<p>IP: '+response.assTecnicoIp+'</p>');
                         $('button').remove('#limparAssTecnico, #salvarAss, #salvarAssTecnico, #adicionarAss');
+                        $("#divAnotacoes").load(base_url+'index.php/os/editar/'+form_data.get('idOs')+' #divAnotacoes');
                     }
                     Swal.fire({
                         icon: "success",
                         title: "Sucesso",
                         text: response.message,
-                        showConfirmButton: false,
                         timer: 1500
                     });
                 } else {
