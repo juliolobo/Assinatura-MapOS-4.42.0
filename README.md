@@ -1,3 +1,6 @@
+### Houveram autualizações no Mapos que não permitem mais o uso dessa assinatura.
+### NÃO INSTALEM
+### Aguarde atualização
 
 ![license](https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=flat-square)
 
