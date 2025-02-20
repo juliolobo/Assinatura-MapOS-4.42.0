@@ -36,11 +36,10 @@ INSERT INTO `configuracoes` (`config`, `valor`) VALUES ('usar_assinatura', 1), (
 #### 4. Já na *Área de administração*, em Editar OS haverá uma aba "Assinatura". Se for a primeira vez que a *PESSOA LOGADA* assina uma OS, a assinatura dela é salva para ser usada em OSs futuras.
 `A assinatura é sempre do usuário que está LOGADO e não do técnico que consta na OS.`
 `O cliente também poderá assinar pela Área de admin para facilitar e não precisar fazer o Cliente abrir o sistema, logar pra assinar.`
-![Aba Assinatura no Editar OS](https://i.imgur.com/J6zjr9r.png)
-![Botões de Limpar e enviar assinaturas](https://i.imgur.com/v2d40iR.png)
+![Aba Assinatura no Editar OS](https://github.com/user-attachments/assets/9e00e255-2ffb-4df1-bcf9-1cbedcc5f360)
 
 #### 5. Se já tiver assinado outra OS e a assinatura já está salva, o botão exibido para assinatura do técnico será "Adicione sua assinatura".
-![Botão Adicione sua assinatura](https://i.imgur.com/cfp6pyg.png)
+![Botão Adicione sua assinatura](https://github.com/user-attachments/assets/e25077dc-da46-44f3-b34f-cd4dce3b7f1e)
 
 ### Exemplos
 #### 1. Como aparece a assinaturas no Editar OS
