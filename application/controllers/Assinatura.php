@@ -23,8 +23,8 @@ class Assinatura extends CI_Controller
             $this->responseSignature($response);
         }
 
-        $assClienteImg64 = $this->input->post('assClienteImg');
-        $assTecnicoImg64 = $this->input->post('assTecnicoImg');
+        $assClienteImg64 = $this->processBase64Image($this->input->post('assClienteImg'));
+        $assTecnicoImg64 = $this->processBase64Image($this->input->post('assTecnicoImg'));
         $data            = [];
 
         if($this->input->post('inserirAssCli') && !empty($this->input->post('assClienteImg'))) {
@@ -131,5 +131,10 @@ class Assinatura extends CI_Controller
         ->set_status_header($response['code'])
         ->set_content_type('application/json', 'utf-8')
         ->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    }
+
+    function processBase64Image($str) {
+        $cleaned = str_replace('[removed]', '', $str);
+        return 'data:image/png;base64,' . $cleaned;
     }
 }
