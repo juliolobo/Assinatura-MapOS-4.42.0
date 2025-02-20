@@ -134,7 +134,10 @@ class Assinatura extends CI_Controller
     }
 
     function processBase64Image($str) {
-        $cleaned = str_replace('[removed]', '', $str);
-        return 'data:image/png;base64,' . $cleaned;
+        if (strpos($str, '[removed]') !== false) {
+            $cleaned = str_replace('[removed]', '', $str);
+            return 'data:image/png;base64,' . $cleaned;
+        }
+        return $str;
     }
 }
