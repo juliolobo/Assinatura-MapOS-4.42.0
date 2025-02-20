@@ -1,6 +1,6 @@
 ![license](https://img.shields.io/badge/license-MIT-green.svg?longCache=true&style=flat-square)
 
-[ATUALIZADO] Desenvolvido para ser implementado no 
+[ATUALIZADO] Desenvolvido para ser implementado no MapOS.
 [<img src="https://raw.githubusercontent.com/RamonSilva20/mapos/master/assets/img/logo.png" alt="MapOS">](https://github.com/RamonSilva20/mapos)
 
 ### Instalação
